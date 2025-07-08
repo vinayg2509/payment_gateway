@@ -1,43 +1,31 @@
-class TransactionDetails 
-{
-  constructor(transactionDetails = []) 
-  {
-    this.transactionDetails = transactionDetails; 
+class TransactionDetails {
+  constructor(transactions = []) {
+    this.transactions = transactions; // Better naming
   }
 
-  // Returns number of transactions
-  numberOfTransaction() 
-  {
-    return this.transactionDetails.length;
+  // Returns the number of transactions
+  numberOfTransactions() {
+    return this.transactions.length;
   }
 
   // Adds a new transaction to the stack
-  pushTransaction(transactionDetail) 
-  {
-    this.transactionDetails.push(transactionDetail);
-    return this.numberOfTransaction();
+  pushTransaction(transaction) {
+    this.transactions.push(transaction);
+    return this.numberOfTransactions();
   }
 
-  // Prints transaction history
-  transactionHistory() 
-  {
-    console.log("Transaction History:");
+  // Prints the transaction history
+  transactionHistory() {
+    console.log("\nTransaction History:");
 
-    const count = this.numberOfTransaction();
+    const count = this.numberOfTransactions();
 
-    if (count === 0)
-    {
-      console.log(" No transaction details found.");
-    } 
-    else 
-    {
-      let history = "";
-      for (let i = 0; i < count; i++) 
-      {
-        history += JSON.stringify(this.transactionDetails[i]);
-        if (i < count - 1) history += ", ";
+    if (count === 0) {
+      console.log("No transaction details found.");
+    } else {
+      for (let i = 0; i < count; i++) {
+        console.log(`${i + 1}. ${this.transactions[i]}`);
       }
-      console.log(history);
     }
   }
 }
