@@ -19,5 +19,4 @@ class Payment {
   }
 }
 
-
-module .export= Payment
+export default Payment
