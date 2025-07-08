@@ -12,4 +12,4 @@
             return this.walletId.length===5
         }
     }
-
+export default WalletPayment
