@@ -16,25 +16,32 @@ function ask(question) {
 }
 
 async function handlePayment() {
-  const userName = await ask("Enter user name: ") ?? "User";
-  const amount = parseFloat(await ask("Enter amount to be paid: ")) ?? 50;
+  const userName = (await ask("👤 Enter user name: "))??"User";
+  const amountInput = await ask("Enter amount to be paid: ");
+  const amount = parseFloat(amountInput);
+
+  if (isNaN(amount) || amount <= 0) {
+    console.log("Invalid amount. Please enter a valid number.\n");
+    return handlePayment();
+  }
+
   const paymentType = (await ask("Choose Payment mode (card, wallet, upi): ")).toLowerCase();
   
   let paymentMode;
 
   switch (paymentType) {
     case "card": {
-      const cardNumber = await ask("Enter 16-digit card number: ");
+      const cardNumber = (await ask("Enter 16-digit card number: ")).trim();
       paymentMode = new CardPayment(userName, amount, cardNumber);
       break;
     }
     case "wallet": {
-      const walletId = await ask("Enter Wallet ID: ");
+      const walletId = (await ask("Enter Wallet ID (5 characters): ")).trim();
       paymentMode = new WalletPayment(userName, amount, walletId);
       break;
     }
     case "upi": {
-      const upiId = await ask("Enter UPI ID: ");
+      const upiId = (await ask("Enter UPI ID (e.g. name@bank): ")).trim();
       paymentMode = new UPIPayment(userName, amount, upiId);
       break;
     }
@@ -51,13 +58,13 @@ async function handlePayment() {
 
   const success = await paymentMode.paymentProcess();
   if (success) {
-    console.log(`Payment successful for ₹${paymentMode.amount} via ${paymentMode.paymentMode}`);
-    transactionDetails.pushTransaction(`${paymentMode.name} paid ₹${paymentMode.amount} using ${paymentMode.paymentMode}`);
+    console.log(`Payment successful for ₹${paymentMode.amountToBePaid} via ${paymentMode.paymentMode}`);
+    transactionDetails.pushTransaction(`${paymentMode.userName} paid ₹${paymentMode.amountToBePaid} using ${paymentMode.paymentMode}`);
   } else {
     console.log("Payment failed. Try again.");
   }
 
-  const showHistory = (await ask("Do you want to see transaction history? (yes/no): ")).toLowerCase();
+  const showHistory = (await ask("\nDo you want to see transaction history? (yes/no): ")).toLowerCase();
   if (showHistory === "yes") {
     transactionDetails.transactionHistory();
   }
