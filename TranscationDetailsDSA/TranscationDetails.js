@@ -48,3 +48,4 @@ class TranscationDetails
             console.log(`${transcationDetails}`);
     }
 }
+export default TranscationDetails
