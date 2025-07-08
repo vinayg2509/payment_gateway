@@ -1,51 +1,45 @@
-class TranscationDetails
+class TransactionDetails 
 {
-    constructor(transcationDetails=[])
-    {
-        this.transcationDetails=transcationDetails//*acts as transcation stack
-    }
+  constructor(transactionDetails = []) 
+  {
+    this.transactionDetails = transactionDetails; 
+  }
 
-   
-   // *to find number of transcation
-    numberOfTranscation()
-    {
-        let countOfTranscation = 0;
-        while (this.transcationDetails[countOfTranscation] != undefined) 
-        {
-            countOfTranscation++;
-        }
-        return countOfTranscation;
-    }
+  // Returns number of transactions
+  numberOfTransaction() 
+  {
+    return this.transactionDetails.length;
+  }
 
-    //*To add each transcation User
-    pushTranscation(transcationDetail)
-    {
-        let numberOfTranscation=this.numberOfTranscation()
-        this.transcationDetails[numberOfTranscation]=transcationDetail
-        return this.numberOfTranscation()
-    }
+  // Adds a new transaction to the stack
+  pushTransaction(transactionDetail) 
+  {
+    this.transactionDetails.push(transactionDetail);
+    return this.numberOfTransaction();
+  }
 
-    transcationHistory()
+  // Prints transaction history
+  transactionHistory() 
+  {
+    console.log("Transaction History:");
+
+    const count = this.numberOfTransaction();
+
+    if (count === 0)
     {
-        console.log("Transaction History:");
-        let numberOfTranscation = this.numberOfTranscation();
-        let transcationDetails=" "
-        if (numberOfTranscation == 0) 
-            {
-            console.log(`No transcation details found`);
-            }
-            else 
-            {
-            for (let index = 0; index <numberOfTranscation; index++) 
-                {
-                  transcationDetails +=this.transcationDetails[index];
-                  if(index<numberOfTranscation-1)
-                  {
-                    transcationDetails+=","
-                  }
-                }
-            }    
-            console.log(`${transcationDetails}`);
+      console.log(" No transaction details found.");
+    } 
+    else 
+    {
+      let history = "";
+      for (let i = 0; i < count; i++) 
+      {
+        history += JSON.stringify(this.transactionDetails[i]);
+        if (i < count - 1) history += ", ";
+      }
+      console.log(history);
     }
+  }
 }
-export default TranscationDetails
+
+export default TransactionDetails;
