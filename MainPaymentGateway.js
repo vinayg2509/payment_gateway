@@ -2,7 +2,7 @@ import readline from 'readline';
 import CardPayment from './payments/CardPayment.js';
 import WalletPayment from './payments/WalletPayment.js';
 import UPIPayment from './payments/UPIPayment.js';
-import TransactionDetails from './TransactionDetailsDSA/TransactionDetails.js';
+import TransactionDetails from './TranscationDetailsDSA/TranscationDetails.js';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -59,7 +59,7 @@ async function handlePayment() {
   const success = await paymentMode.paymentProcess();
   if (success) {
     console.log(`Payment successful for ₹${paymentMode.amountToBePaid} via ${paymentMode.paymentMode}`);
-    transactionDetails.pushTransaction(`${paymentMode.userName} paid ₹${paymentMode.amountToBePaid} using ${paymentMode.paymentMode}`);
+    transactionDetails.pushTransaction(`${paymentMode.userName} paid ₹${paymentMode.amountToBePaid} using ${paymentMode.paymentMode} on ${paymentMode.dateAndTime}`);
   } else {
     console.log("Payment failed. Try again.");
   }
@@ -69,7 +69,24 @@ async function handlePayment() {
     transactionDetails.transactionHistory();
   }
 
-  rl.close(); // Close CLI
+ 
 }
 
-handlePayment();
+async function runGateway() {
+  while (true) {
+    await handlePayment(); // handles a single payment
+
+    const again = (await ask("\nDo you want to make another payment? (yes/no): ")).toLowerCase();
+    if (again !== "yes") {
+      const showHistory = (await ask("Do you want to see transaction history? (yes/no): ")).toLowerCase();
+      if (showHistory === "yes") {
+        transactionDetails.transactionHistory();
+      }
+      rl.close(); // only close when fully done
+      break;
+    }
+  }
+}
+
+runGateway();
+

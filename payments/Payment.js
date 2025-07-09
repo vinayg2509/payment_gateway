@@ -11,14 +11,22 @@ class Payment {
   }
 
   // Simulates asynchronous payment processing
-  paymentProcess(callback) {
-    console.log(`⏳ Processing payment of ₹${this.amountToBePaid} for ${this.userName}...`);
 
+  paymentProcess()
+  {
+  console.log(`Processing payment of ₹${this.amountToBePaid} for ${this.userName}...`);
+
+  return new Promise((resolve) => {
     setTimeout(() => {
-      const isSuccessful = Math.random() > 0.2; // 80% success rate
-      callback(isSuccessful);
+      const isSuccessful = Math.random() > 0.2;
+      resolve(isSuccessful);
     }, 2000);
-  }
+  });
 }
+
+}
+
+// const payment=new Payment('Vinay',123456)
+// payment.paymentProcess()
 
 export default Payment;

@@ -1,6 +1,6 @@
 class TransactionDetails {
   constructor(transactions = []) {
-    this.transactions = transactions; // Better naming
+    this.transactions = transactions; 
   }
 
   // Returns the number of transactions
